@@ -89,28 +89,18 @@ public class InventoryManager : IStorable
             Console.WriteLine("Item deleted.");
     }
 
-    // Saves the current inventory to a file, with each item on a new line in the format: Id,Name,Quantity,Category,AddedDate,IsArchived
-    public void SaveToFile()
-    {
-       List<string> lines = new List<string>();
-        foreach (var item in items)
-        {
-            string line = $"{item.Id},{item.Name},{item.Quantity},{item.Category},{item.AddedDate},{item.IsArchived}";
-            lines.Add(line);
-        }
-        File.WriteAllLines(filePath, lines);
-    }
-
+    // Loads inventory items from a file, expecting each line to be in the format: Id|Name|Quantity|Category|AddedDate|IsArchived
     public void LoadFromFile()
     {
-        if (File.Exists(filePath))
+        if (!File.Exists(filePath))
             return;
+
         string[] lines = File.ReadAllLines(filePath);
 
         foreach (var line in lines)
         {
-            var parts = line.Split(',');
-            
+            var parts = line.Split('|');
+
             var item = new InventoryItem
             {
                 Id = int.Parse(parts[0]),
@@ -120,10 +110,23 @@ public class InventoryManager : IStorable
                 AddedDate = DateTime.Parse(parts[4]),
                 IsArchived = bool.Parse(parts[5])
             };
+
             items.Add(item);
         }
-        if(items.Count > 0)
+
+        if (items.Count > 0)
             nextId = items.Max(i => i.Id) + 1;
     }
+    // Saves the current inventory to a file, with each item on a new line in the format: Id|Name|Quantity|Category|AddedDate|IsArchived
+    public void SaveToFile()
+    {
+        List<string> lines = new List<string>();
 
+        foreach (var item in items)
+        {
+            lines.Add($"{item.Id}|{item.Name}|{item.Quantity}|{item.Category}|{item.AddedDate}|{item.IsArchived}");
+        }
+
+        File.WriteAllLines(filePath, lines);
+    }
 }
