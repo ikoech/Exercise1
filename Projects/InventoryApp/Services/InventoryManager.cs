@@ -92,6 +92,7 @@ public class InventoryManager : IStorable
     // Loads inventory items from a file, expecting each line to be in the format: Id|Name|Quantity|Category|AddedDate|IsArchived
     public void LoadFromFile()
     {
+        // Clear existing items before loading new ones
         if (!File.Exists(filePath))
             return;
 

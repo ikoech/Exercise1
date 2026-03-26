@@ -41,8 +41,38 @@ class Program
                 case "4":   
                     AddItemsFlow(inventoryManager);
                     break ;
+
+                case "5":
+                    EditItemsFlow(inventoryManager);
+                    break;
             }
         }
+
+    }
+
+    // Method to handle the flow of editing an existing item
+    private static void EditItemsFlow(InventoryManager inventoryManager)
+    {
+        Console.Write("Enter the ID of the item to edit: ");
+        if(!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID. Please enter a valid number.");
+            return;
+        }
+
+        Console.Write("Enter new item Name: ");
+        string? newName = Console.ReadLine();
+
+        Console.Write("Enter new item Quantity: ");
+        if(!int.TryParse(Console.ReadLine(), out int newQuantity))
+        {
+            Console.WriteLine("Invalid quantity. Please enter a valid number.");
+            return;
+        }
+
+        Console.Write("Enter new item Category: ");
+        string? newCategory = Console.ReadLine();
+        inventoryManager.EditItem(id, newName!, newQuantity, newCategory!);
 
     }
 
