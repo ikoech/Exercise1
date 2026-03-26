@@ -45,38 +45,29 @@ class Program
                 case "5":
                     EditItemsFlow(inventoryManager);
                     break;
+
+                case "6":
+                    ArchiveItemFLow(inventoryManager);
+                    break;
+
+                case "7":
+                    DeleteItemsFlow(inventoryManager);
+                    break;
+
+                case "8":
+                    inventoryManager.SaveToFile();
+                    Console.WriteLine("Data saved. Exiting...");
+                    running = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid option. Please select a valid option.");
+                    break;  
             }
         }
+    Console.WriteLine("Invalid option. Please select a valid option.");
 
     }
-
-    // Method to handle the flow of editing an existing item
-    private static void EditItemsFlow(InventoryManager inventoryManager)
-    {
-        Console.Write("Enter the ID of the item to edit: ");
-        if(!int.TryParse(Console.ReadLine(), out int id))
-        {
-            Console.WriteLine("Invalid ID. Please enter a valid number.");
-            return;
-        }
-
-        Console.Write("Enter new item Name: ");
-        string? newName = Console.ReadLine();
-
-        Console.Write("Enter new item Quantity: ");
-        if(!int.TryParse(Console.ReadLine(), out int newQuantity))
-        {
-            Console.WriteLine("Invalid quantity. Please enter a valid number.");
-            return;
-        }
-
-        Console.Write("Enter new item Category: ");
-        string? newCategory = Console.ReadLine();
-        inventoryManager.EditItem(id, newName!, newQuantity, newCategory!);
-
-    }
-
-
 
     // Method to display all items in the inventory
     private static void ShowAllItems(InventoryManager inventoryManager)
@@ -125,5 +116,52 @@ class Program
         inventoryManager.AddItem(name!, quantity, category!);
         Console.WriteLine("Item added successfully!");
 
+    }
+
+    // Method to handle the flow of editing an existing item
+    private static void EditItemsFlow(InventoryManager inventoryManager)
+    {
+        Console.Write("Enter the ID of the item to edit: ");
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID. Please enter a valid number.");
+            return;
+        }
+
+        Console.Write("Enter new item Name: ");
+        string? newName = Console.ReadLine();
+
+        Console.Write("Enter new item Quantity: ");
+        if (!int.TryParse(Console.ReadLine(), out int newQuantity))
+        {
+            Console.WriteLine("Invalid quantity. Please enter a valid number.");
+            return;
+        }
+
+        Console.Write("Enter new item Category: ");
+        string? newCategory = Console.ReadLine();
+        inventoryManager.EditItem(id, newName!, newQuantity, newCategory!);
+
+    }
+    // Method to handle the flow of archiving an item
+    private static void ArchiveItemFLow(InventoryManager inventoryManager)
+    {
+        Console.Write("Enter the ID of the item to archive: ");
+        if (!int.TryParse(Console.ReadLine(), out int archiveId))
+        {
+            Console.WriteLine("Invalid ID. Please enter a valid number.");
+        }
+        inventoryManager.ArchiveItem(archiveId);
+    }
+
+    // Method to handle the flow of deleting an item
+    private static void DeleteItemsFlow(InventoryManager inventoryManager)
+    {
+        Console.Write("Enter the ID of the item to delete: ");
+        if (!int.TryParse(Console.ReadLine(), out int deleteId))
+        {
+            Console.WriteLine("Invalid ID. Please enter a valid number.");
+        }
+        inventoryManager.DeleteItem(deleteId);
     }
 }
